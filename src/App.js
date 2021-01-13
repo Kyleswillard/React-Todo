@@ -11,43 +11,49 @@ class App extends React.Component {
         super()
         this.state = {
             todos: [
-                { id: 1, task: 'Mow Lawn', complete: false },
+                { id: 1, task: 'Mow Lawn', complete: true },
                 { id: 2, task: 'Take Dog Out', complete: false }
             ]
         }
     }
 
     //submit handler
-    handleAdd = (value) => {
-        const updateTodos = [...this.state.todos]
-        updateTodos.push({ task: value, id: Date.now(), complete: false })
-    }
-    //Toggle Handler
-    handleToggle = (taskId) => {
+    handleAdd = (todo) => {
         this.setState({
-            todos: this.state.todos.map((task) => {
-                if (taskId === task.id) {
+            todos: [
+                ...this.state.todos,
+                { task: todo, id: Date.now(), complete: false }
+            ]
+        })
+    }
+
+    //Toggle Handler
+    handleToggle = (id) => {
+        this.setState({
+            todos: this.state.todos.map((todo) => {
+                if (todo.id === id) {
                     return {
-                        ...task,
-                        complete: !task.complete
+                        ...todo,
+                        complete: !todo.complete
                     }
-                } else {
-                    return task
                 }
+                return todo
             })
         })
     }
+
     // Delete Handler
-    handleDelete = (e) => {
-        e.preventDefault()
-        const todoClone = this.state.todos.filter((task) => {
-            return !task.complete
+    handleDelete = () => {
+        this.setState((prevState) => {
+            return {
+                todos: prevState.todos.filter((todo) => {
+                    return todo.completed !== true
+                })
+            }
         })
-        this.setState({ todos: todoClone })
     }
 
     render() {
-        // console.log(console.log('state:', this.state))
         return (
             <div>
                 <h2>Welcome to your Todo App!</h2>

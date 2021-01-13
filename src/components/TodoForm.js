@@ -4,40 +4,38 @@ class TodoForm extends Component {
     constructor(props) {
         super()
         this.state = {
-            value: '',
-            id: '',
-            completed: false
+            task: ''
         }
     }
 
     handleChange = (e) => {
         this.setState({
-            value: e.target.value
+            ...this.state,
+            task: e.target.value
         })
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.onAdd(this.state.value)
-        this.setState({
-            value: ''
-        })
+        this.props.onAdd(this.state.task)
     }
 
     render() {
         // console.log('form:', this.props)
-        console.log(this.state.value)
+        console.log(this.state)
         return (
             <form>
-                <label htmlFor="task">Add New Task:</label>
                 <input
+                    placeholder="Add New Todo"
                     onChange={this.handleChange}
-                    value={this.state.value}
+                    value={this.state.task}
                     type="text"
                     name="task"
                 />
-                <button onClick={this.handleSubmit}>Add New Task</button>
-                <button onClick={this.props.onDelete}>Clear Completed</button>
+                <button onClick={this.handleSubmit}>Add Task</button>
+                <button onClick={() => this.props.onDelete}>
+                    Clear Complete
+                </button>
             </form>
         )
     }

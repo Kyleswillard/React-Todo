@@ -1,21 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Todo extends Component {
-    constructor(props) {
-        super()
+const Todo = (props) => {
+    const { todo, onToggle } = props
+    console.log('complete', todo.complete)
+    const handleClick = (e) => {
+        e.preventDefault()
+        onToggle(todo.id)
     }
-    handleClick = (e) => {
-        this.props.onToggle(this.props.task.id)
-    }
-    render() {
-        return (
-            <div>
-                <h3 className={this.props.complete ? 'crossoff' : ''}>
-                    {' '}
-                    {this.props.task}{' '}
-                </h3>
-                <button onClick={this.handleClick}>Mark Complete</button>
-            </div>
-        )
-    }
+
+    return (
+        <div>
+            <li
+                onClick={handleClick}
+                style={
+                    todo.complete === true
+                        ? { textDecoraton: 'line-through', color: 'grey' }
+                        : { textDecoration: 'none' }
+                }
+            >
+                {todo.task}
+            </li>
+        </div>
+    )
 }
+
+export default Todo
